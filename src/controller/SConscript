@@ -21,7 +21,7 @@ bin_obj = [
 
 # use the linker script to get the correct memory layout
 curr_dir = Dir('.').srcnode().abspath
-link_script = os.path.join(curr_dir, '../libsam', 'sam3x8e_flash.ld')
+link_script = os.path.join(curr_dir, '../ext/libsam', 'sam3x8e_flash.ld')
 env.Append(LINKFLAGS = '-T{}'.format(link_script))
 
 controller = env.Program(env['PROJ_NAME'], bin_obj)

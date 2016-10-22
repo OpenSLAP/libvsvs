@@ -23,18 +23,19 @@ $ init_or_update.sh
 Dependencies
 ============
 
+For Debian-based distros (Ubuntu for instance): `$ utils/install_deps/deb.sh`
+
+
+
 ## pyserial
 
 Available under most package managers, or via `pip`.
 
-1. PySerial
-    * (Recommended) most package managers also have a `python-serial`
-        * install the package with your distribution's package manager
-            * Ubuntu: `sudo apt-get install -y python-serial`
-        * let pip upgrade it for us like so:
-            * `sudo pip install pyserial --upgrade`
-    * Otherwise
-        * `sudo pip install pyserial`
+__*(Recommended):*___ install the package with your distribution's package manager
+  * Ubuntu: `sudo apt-get install -y python-serial`
+
+
+Otherwise: `sudo pip install pyserial`
 
 
 ## Arduino
@@ -48,9 +49,18 @@ in a submodule (owned by this organization). This removes the need for installin
 installing the boards via GUI.
 
 
+## gcc-arm-none-eabi
+
+A compiler for the ARM platform is required.
+  * Ubuntu: `sudo apt-get install -y gcc-arm-none-eabi`
+
+
+
+
+
 ## Build System
 
-#### Scons
+### Scons
 
 This is the main driver of the build system.
 
@@ -61,7 +71,7 @@ Available under any good package manager.
 Ubuntu: `sudo apt-get install -y scons`
 
 
-#### Building
+### Building
 
 
 To see all compilation options: `$ scons --help`.

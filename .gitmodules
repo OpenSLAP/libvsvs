@@ -1,3 +1,3 @@
 [submodule "src/libsam"]
-	path = src/libsam
+	path = src/ext/libsam
 	url = https://github.com/OpenSLAP/libsam

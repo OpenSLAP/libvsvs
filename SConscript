@@ -154,25 +154,25 @@ def get_board_info(root_path, board_name):
 ##
 
 gcc_version = GetOption('gcc_version')
-arduino_library_path = 'src/libsam/arduino/libraries'
-
+libsam_dir = 'src/ext/libsam'
+arduino_library_path = libsam_dir+'/arduino/libraries'
 
 # TODO TODO TODO TODO TODO: ewww
 # include paths for libsam
 libduino_paths = {
     # libsam
-    'sam_lib':          'src/libsam/system/libsam',                         # base sam header (chip.h)
-    'sam_lib_hdr':      'src/libsam/system/libsam/include',                 # generic sam headers
-    'sam_root':         'src/libsam/system/Device/ATMEL',                   # ATMEL sam base header
-    'sam_core':         'src/libsam/system/Device/ATMEL/Include',           # ATMEL sam core headers
-    'sam3xa_core':      'src/libsam/system/Device/ATMEL/sam3xa/include',    # sam3xa specific headers
-    'CMSIS_core':       'src/libsam/system/CMSIS/Include',                  # CMSIS shared headers
-    'arm_cortexm4':     'src/libsam/system/Device/ARM/ARMCM3/Include',      # cortex-m4 shared headers
+    'sam_lib':          libsam_dir+'/system/libsam',                        # base sam header (chip.h)
+    'sam_lib_hdr':      libsam_dir+'/system/libsam/include',                # generic sam headers
+    'sam_root':         libsam_dir+'/system/Device/ATMEL',                  # ATMEL sam base header
+    'sam_core':         libsam_dir+'/system/Device/ATMEL/Include',          # ATMEL sam core headers
+    'sam3xa_core':      libsam_dir+'/system/Device/ATMEL/sam3xa/include',   # sam3xa specific headers
+    'CMSIS_core':       libsam_dir+'/system/CMSIS/Include',                 # CMSIS shared headers
+    'arm_cortexm4':     libsam_dir+'/system/Device/ARM/ARMCM3/Include',     # cortex-m4 shared headers
 
     # arduino
-    'arduino_core':     'src/libsam/arduino',                               # arduino due specific header
+    'arduino_core':     libsam_dir+'/arduino',                              # arduino due specific header
     'arduino_libs':     arduino_library_path,                               # core arduino libraries
-    'arduino_variant':  'src/libsam/variants/arduino_due_x',                # arduino due specific header
+    'arduino_variant':  libsam_dir+'/variants/arduino_due_x',               # arduino due specific header
 }
 
 COMMONFLAGS.extend(['-I{}'.format(path) for _, path in libduino_paths.iteritems()])
@@ -258,7 +258,7 @@ if 'TERM' in os.environ:
 
 builds = OrderedDict([
     #('arduino_core', 'src/arduino_core'),
-    ('libarduino',   {'path':'src/libsam',      'is_lib':True,  'include':True}),
+    ('libarduino',   {'path':'src/ext/libsam',  'is_lib':True,  'include':True}),
     ('controller',   {'path':'src/controller',  'is_lib':True,  'include':True}),
 ])
 Export('global_env')
