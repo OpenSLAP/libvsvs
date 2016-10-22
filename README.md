@@ -13,15 +13,19 @@ $ git submodule init
 $ git submodule update
 ```
 
+Alternatively,
+
+```
+$ init_or_update.sh
+```
+
 
 Dependencies
 ============
 
-## pip
+## pyserial
 
-Obviously, `pip`.
-
-Available under all package managers.
+Available under most package managers, or via `pip`.
 
 1. PySerial
     * (Recommended) most package managers also have a `python-serial`
@@ -39,27 +43,9 @@ This project uses the native Arduino compilers, libraries, source code, and link
 
 Full compatibility is to be expected with the IDE and other Arduino-compatible systems.
 
-__*HOWEVER*__, to support the `Arduino Due` you will have to manually install the Arduino IDE and have a version of
-`v1.6.8` or greater *and* manually install the `Due` support package from within the IDE.
-
-
-Arduino `scons` flags:
-
-* `--arduino-path`
-    * The root path of the *Due Package*.
-* `--arduino-version`
-    * Version of the Arduino IDE installed.
-* `--arduino-gcc-version`
-    * Version of the gcc version installed with the Arduino IDE.
-* `--variant`
-    * Arduino variant name as seen in `boards.txt` (installed by IDE)
-* `--mcu`
-    * Change the `mcpu` flag to the compiler and linker
-
-
-Though these should default nicely, you can see it is somewhat fragile.
-
-The defaults are easily changed, and should be bumped regularly as official releases change.
+__*HOWEVER*__, to maintain CI, command line compatability, and ease of use the libraries are extracted and mirrored
+in a submodule (owned by this organization). This removes the need for installing the Arduino IDE, Java, or manually
+installing the boards via GUI.
 
 
 ## Build System
@@ -75,59 +61,18 @@ Available under any good package manager.
 Ubuntu: `sudo apt-get install -y scons`
 
 
+#### Building
 
-Arduino Due
-===========
+
+To see all compilation options: `$ scons --help`.
+
+To compile the controller (and the `arduino-core` libraries) simply run `$ scons`.
+
+
+#### Flashing
+
+Flashing the program to the arduino can be done using `pyserial` via:
 
 ```
-    arduino_due_x_dbg.name=Arduino Due (Programming Port)
-    arduino_due_x_dbg.vid.0=0x2341
-    arduino_due_x_dbg.pid.0=0x003d
-    arduino_due_x_dbg.vid.1=0x2A03
-    arduino_due_x_dbg.pid.1=0x003d
-    arduino_due_x_dbg.upload.tool=bossac
-    arduino_due_x_dbg.upload.protocol=sam-ba
-    arduino_due_x_dbg.upload.maximum_size=524288
-    arduino_due_x_dbg.upload.use_1200bps_touch=true
-    arduino_due_x_dbg.upload.wait_for_upload_port=false
-    arduino_due_x_dbg.upload.native_usb=false
-    arduino_due_x_dbg.build.mcu=cortex-m3
-    arduino_due_x_dbg.build.f_cpu=84000000L
-    arduino_due_x_dbg.build.usb_manufacturer="Arduino LLC"
-    arduino_due_x_dbg.build.usb_product="Arduino Due"
-    arduino_due_x_dbg.build.board=SAM_DUE
-    arduino_due_x_dbg.build.core=arduino
-    arduino_due_x_dbg.build.extra_flags=-D__SAM3X8E__ -mthumb {build.usb_flags}
-    arduino_due_x_dbg.build.ldscript=linker_scripts/gcc/flash.ld
-    arduino_due_x_dbg.build.variant=arduino_due_x
-    arduino_due_x_dbg.build.variant_system_lib=libsam_sam3x8e_gcc_rel.a
-    arduino_due_x_dbg.build.vid=0x2341
-    arduino_due_x_dbg.build.pid=0x003e
-    
-    arduino_due_x.name=Arduino Due (Native USB Port)
-    arduino_due_x.vid.0=0x2341
-    arduino_due_x.pid.0=0x003e
-    arduino_due_x.vid.1=0x2A03
-    arduino_due_x.pid.1=0x003e
-    arduino_due_x.upload.tool=bossac
-    arduino_due_x.upload.protocol=sam-ba
-    arduino_due_x.upload.maximum_size=524288
-    arduino_due_x.upload.use_1200bps_touch=true
-    arduino_due_x.upload.wait_for_upload_port=true
-    arduino_due_x.upload.native_usb=true
-    arduino_due_x.build.mcu=cortex-m3
-    arduino_due_x.build.f_cpu=84000000L
-    arduino_due_x.build.usb_manufacturer="Arduino LLC"
-    arduino_due_x.build.usb_product="Arduino Due"
-    arduino_due_x.build.board=SAM_DUE
-    arduino_due_x.build.core=arduino
-    arduino_due_x.build.extra_flags=-D__SAM3X8E__ -mthumb {build.usb_flags}
-    arduino_due_x.build.ldscript=linker_scripts/gcc/flash.ld
-    arduino_due_x.build.variant=arduino_due_x
-    arduino_due_x.build.variant_system_lib=libsam_sam3x8e_gcc_rel.a
-    arduino_due_x.build.vid=0x2341
-    arduino_due_x.build.pid=0x003e
+$ scons --upload
 ```
-
-
-
