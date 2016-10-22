@@ -1,0 +1,3 @@
+[submodule "src/libsam"]
+	path = src/libsam
+	url = https://github.com/OpenSLAP/libsam

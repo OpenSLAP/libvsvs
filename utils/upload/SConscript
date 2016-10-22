@@ -1,0 +1,60 @@
+import os
+import re
+from serial.tools import list_ports
+
+def get_arduino_port():
+    port_list = list(list_ports.comports())
+    port_list = filter(lambda p: 'Due' in p.description, port_list)
+    
+    if len(port_list) > 1:
+        raise RuntimeError('more than one Due plugged in')
+    elif len(port_list) == 0:
+        raise RuntimeError('no Due detected')
+    
+    return port_list[0]
+
+
+
+Import('build_targets')
+Import('global_env')
+env = global_env.Clone()
+
+progelf = build_targets['controller'][0].abspath
+progbin = env.File(re.sub(r"\.elf$", ".bin", progelf))
+
+arduino_prog_port = '/dev/{}'.format(get_arduino_port().name)
+
+STTYFLAGS = [       # TODO: expose as build options?
+    '-F', arduino_prog_port,
+    'cs8',
+    '1200',
+    'hupcl',
+]
+
+BOSSACFLAGS = [     # TODO: expose as build options?
+    '-i',
+    '--port={}'.format(get_arduino_port().name),
+    '-U', 'false',
+    '-e',
+    '-w',
+    '-v',
+    '-b',
+    '-R',
+    progbin.abspath,
+]
+
+OBJCOPYFLAGS = [
+    '-O', 'binary',
+]
+
+bincmd = env.Command(progbin, progelf, '$OBJCOPY {} $SOURCE $TARGET'.format(' '.join(OBJCOPYFLAGS)))
+
+sttycmd = 'sudo stty {}'.format(' '.join(STTYFLAGS))
+bossaccmd = 'sudo {} {}'.format(env['ARDUINO_BOSSAC_PATH'], ' '.join(BOSSACFLAGS))
+
+upload = [
+    env.Command('stty', progbin, sttycmd),
+    env.Command('bossac', progbin, bossaccmd),
+]
+env.AlwaysBuild(upload)
+Return('upload')

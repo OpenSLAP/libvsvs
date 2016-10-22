@@ -1,0 +1,28 @@
+import os
+
+Import('build_targets')
+Import('global_env')
+env = global_env.Clone()
+
+# we hold ourselves to a higher standard ;)
+env.Append(CFLAGS = env['STRICTFLAGS'])
+env.Append(CXXFLAGS = env['STRICTFLAGS'])
+
+
+sources = []
+sources.extend(env.get_files(Dir('.').srcnode().abspath, "c"))
+sources.extend(env.get_files(Dir('.').srcnode().abspath, "cpp"))
+
+bin_obj = [
+    env.Object(sources),
+    build_targets['libarduino'],        # link to arduino core
+]
+
+
+# use the linker script to get the correct memory layout
+curr_dir = Dir('.').srcnode().abspath
+link_script = os.path.join(curr_dir, '../libsam', 'sam3x8e_flash.ld')
+env.Append(LINKFLAGS = '-T{}'.format(link_script))
+
+controller = env.Program(env['PROJ_NAME'], bin_obj)
+Return('controller')
