@@ -8,7 +8,6 @@ addons:
     packages:
       - scons
       - gcc-arm-none-eabi
-      - binutils-arm-none-eabi
       - git
 
 script:
