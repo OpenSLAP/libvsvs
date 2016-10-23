@@ -1,0 +1,16 @@
+sudo: false
+language: cpp
+
+addons:
+  apt:
+    sources:
+      - debian-sid
+    packages:
+      - scons
+      - gcc-arm-none-eabi
+      - binutils-arm-none-eabi
+      - git
+
+script:
+  - ./init_or_update.sh
+  - scons
