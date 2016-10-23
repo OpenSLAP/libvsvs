@@ -54,6 +54,8 @@ COMMONFLAGS=[
     '-O2',
 
     '-mcpu=%s' % GetOption('mcu'),
+
+    '-I{}'.format(Dir('#/src/ext').abspath)
 ]
 
 
@@ -202,7 +204,6 @@ AddMethod(Environment, get_board_info)
 ##
 SetOption('num_jobs', int(multiprocessing.cpu_count()))
 
-
 # combine the flags
 CFLAGS.extend(COMMONFLAGS)
 CPPFLAGS.extend(COMMONFLAGS)
@@ -257,9 +258,8 @@ if 'TERM' in os.environ:
 ##
 
 builds = OrderedDict([
-    #('arduino_core', 'src/arduino_core'),
-    ('libarduino',   {'path':'src/ext/libsam',  'is_lib':True,  'include':True}),
-    ('controller',   {'path':'src/controller',  'is_lib':True,  'include':True}),
+    ('libarduino',   {'path':'src/ext/libsam',     'is_lib':True,   'include':True}),
+    ('controller',   {'path':'src/controller',     'is_lib':False,  'include':True}),
 ])
 Export('global_env')
 

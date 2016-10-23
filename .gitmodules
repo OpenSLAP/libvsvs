@@ -1,3 +1,6 @@
 [submodule "src/libsam"]
 	path = src/ext/libsam
 	url = https://github.com/OpenSLAP/libsam
+[submodule "src/ext/gosuvius"]
+	path = src/ext/gosuvius
+	url = https://github.com/OpenSLAP/gosuvius

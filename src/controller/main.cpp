@@ -14,6 +14,8 @@
 // project includes
 //
 
+#include "gosuvius/structures.hpp"
+
 
 //
 // global, static/const members
