@@ -1,6 +1,8 @@
 vesUVius
 ========
 
+[![Build Status](https://travis-ci.org/OpenSLAP/vesuvius.svg?branch=travis)](https://travis-ci.org/OpenSLAP/vesuvius)
+
 First Steps
 ===========
 

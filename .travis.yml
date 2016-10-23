@@ -1,0 +1,13 @@
+sudo: required
+dist: trusty
+language: cpp
+
+addons:
+  apt:
+    sources:
+      - debian-sid
+
+script:
+  - ./init_or_update.sh
+  - ./utils/install_deps/deb.sh
+  - scons

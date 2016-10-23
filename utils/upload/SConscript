@@ -19,8 +19,7 @@ Import('build_targets')
 Import('global_env')
 env = global_env.Clone()
 
-progelf = build_targets['controller'][0].abspath
-progbin = env.File(re.sub(r"\.elf$", ".bin", progelf))
+progbin = build_targets['controller'][1].abspath
 
 arduino_prog_port = '/dev/{}'.format(get_arduino_port().name)
 
@@ -42,12 +41,6 @@ BOSSACFLAGS = [     # TODO: expose as build options?
     '-R',
     progbin.abspath,
 ]
-
-OBJCOPYFLAGS = [
-    '-O', 'binary',
-]
-
-bincmd = env.Command(progbin, progelf, '$OBJCOPY {} $SOURCE $TARGET'.format(' '.join(OBJCOPYFLAGS)))
 
 sttycmd = 'sudo stty {}'.format(' '.join(STTYFLAGS))
 bossaccmd = 'sudo {} {}'.format(env['ARDUINO_BOSSAC_PATH'], ' '.join(BOSSACFLAGS))

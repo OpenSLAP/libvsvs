@@ -1,4 +1,5 @@
 import os
+import re
 
 Import('build_targets')
 Import('global_env')
@@ -25,4 +26,19 @@ link_script = os.path.join(curr_dir, '../ext/libsam', 'sam3x8e_flash.ld')
 env.Append(LINKFLAGS = '-T{}'.format(link_script))
 
 controller = env.Program(env['PROJ_NAME'], bin_obj)
-Return('controller')
+
+
+OBJCOPYFLAGS = [
+    '-O', 'binary',
+]
+progelf = controller[0].abspath
+progbin = env.File(re.sub(r"\.elf$", ".bin", progelf))
+bincmd = env.Command(progbin, progelf, '$OBJCOPY {} $SOURCE $TARGET'.format(' '.join(OBJCOPYFLAGS)))
+
+
+result = [
+    controller,
+    progbin,
+]
+
+Return('result')
