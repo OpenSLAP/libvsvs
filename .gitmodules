@@ -6,4 +6,4 @@
 	url = https://github.com/OpenSLAP/gosuvius
 [submodule "src/ext/monoplex"]
 	path = src/ext/monoplex
-	url = git@github.com:OpenSLAP/monoplex.git
+	url = https://github.com/OpenSLAP/monoplex.git
