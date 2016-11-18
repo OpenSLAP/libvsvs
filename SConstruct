@@ -1,6 +1,7 @@
 EnsurePythonVersion(2,7)
 
 import os
+import subprocess
 
 ##
 ## build options
@@ -73,10 +74,42 @@ AddOption('--upload',
     help='upload the program to the board'
 )
 
+AddOption('--update',
+    dest='update',
+    action='store_true',
+    default=False,
+    help='updates all submodules'
+)
+
 
 ##
 ## other setup
 ##
+
+def needs_update(subs):
+    for mod in submodules:
+        if GetOption('update') or not len([f for f in os.listdir(mod) if os.path.isfile(os.path.join(mod, f))]):
+            return True
+    return False
+
+
+# initialize submodules
+get_subs_cmd = [
+    ['git', 'config', '--file', os.path.join(Dir('#').abspath, '.gitmodules'), '--name-only', '--get-regexp', 'path'],
+    ['sed', "s/^submodule\.//"],
+    ['sed', "s/\.path$//"],
+]
+get_subs = subprocess.Popen(get_subs_cmd[0], stdout=subprocess.PIPE)
+filter_sub = subprocess.Popen(get_subs_cmd[1], stdin=get_subs.stdout, stdout=subprocess.PIPE)
+get_subs.wait()
+filter_sub.wait()
+submodules = filter(None, subprocess.check_output(get_subs_cmd[2], stdin=filter_sub.stdout).split('\n'))
+if GetOption('update') or needs_update(submodules):
+    print "initializing modules..."
+    subprocess.check_call(['git', 'submodule', 'init'])
+    print "updating modules..."
+    subprocess.check_call(['git', 'submodule', 'update', '--remote'])
+
 
 # init the 'global' base environment (more added in the SConscript)
 env = Environment()

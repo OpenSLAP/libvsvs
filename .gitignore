@@ -7,3 +7,5 @@ bin/
 *.swp
 *.o
 *.a
+
+.ycm_extra_conf*

@@ -17,6 +17,7 @@ sources.extend(env.get_files(Dir('.').srcnode().abspath, "cpp"))
 bin_obj = [
     env.Object(sources),
     build_targets['libarduino'],        # link to arduino core
+    build_targets['monoplex'],          # link to serial library
 ]
 
 

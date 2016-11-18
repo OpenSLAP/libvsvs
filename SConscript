@@ -259,6 +259,7 @@ if 'TERM' in os.environ:
 
 builds = OrderedDict([
     ('libarduino',   {'path':'src/ext/libsam',     'is_lib':True,   'include':True}),
+    ('monoplex',     {'path':'src/ext/monoplex',   'is_lib':True,   'include':True}),
     ('controller',   {'path':'src/controller',     'is_lib':False,  'include':True}),
 ])
 Export('global_env')
@@ -286,7 +287,9 @@ for name, info in builds.iteritems():
     make_target(global_env, name, info)
 
 # define dependency graph
+Depends('monoplex', 'libarduino')
 Depends('controller', 'libarduino')
+Depends('controller', 'monoplex')
 
 # check if we should upload to the board
 if GetOption('do_upload'):
