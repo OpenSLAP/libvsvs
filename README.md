@@ -18,7 +18,13 @@ $ git submodule update
 Alternatively,
 
 ```
-$ init_or_update.sh
+$ scons --update
+```
+
+or... because you've read this far:
+
+```
+$ scons
 ```
 
 
@@ -33,7 +39,7 @@ For Debian-based distros (Ubuntu for instance): `$ utils/install_deps/deb.sh`
 
 Available under most package managers, or via `pip`.
 
-__*(Recommended):*___ install the package with your distribution's package manager
+__*(Recommended):*__ install the package with your distribution's package manager
   * Ubuntu: `sudo apt-get install -y python-serial`
 
 
